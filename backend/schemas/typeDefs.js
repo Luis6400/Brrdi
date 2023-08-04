@@ -11,12 +11,9 @@ const typeDefs = gql`
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(userName: String!, email: String!, password: String!): Auth
-        addChrrp(chrrpText: String!): Chrrp
+        addChrrp(chrrpText: String!, parentChrrpId: ID): Chrrp
         deleteChrrp(chrrpId: ID!): Chrrp
-        addComment(chrrpId: ID!, commentText: String!): Chrrp
-        deleteComment(chrrpId: ID!, commentId: ID!): Chrrp
         addchrrpLikes(chrrpId: ID!): Chrrp
-        addCommentLikes(chrrpId: ID!, commentId: ID!): Chrrp
         addRechrrps(chrrpId: ID!): Chrrp
         followUser(userName: String!): User
         deletereChrrps(chrrpId: ID!): Chrrp
@@ -36,14 +33,7 @@ const typeDefs = gql`
         chrrpDate: String
         chrrpLikes: Int
         chrrpRechrrps: Int
-        comments: [Comment]
-    }
-    type Comment {
-        _id: ID
-        commentText: String
-        commentAuthor: String
-        commentDate: String
-        commentLikes: Int
+        parentChrrp: ID
     }
     type Auth {
         token: ID!

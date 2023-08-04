@@ -40,14 +40,14 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        addChrrp: async (parent, { chrrpText }, context) => {
+        addChrrp: async (parent, { chrrpText, parentChrrpId }, context) => {
             if (context.user) {
                 const chrrp = await Chrrp.create({
                     chrrpText,
                     chrrpAuthor: context.user._id,
+                    parentChrrp: parentChrrpId || null,
                 });
                 
-                // Add the new chrrp to the user's chrrps
                 await User.findByIdAndUpdate(
                     context.user._id,
                     { $push: { chrrps: chrrp._id } },
@@ -65,8 +65,7 @@ const resolvers = {
                 if (!chrrp) {
                     throw new Error('No chrrp found with this id');
                 }
-        
-                // Update user chrrps array
+                
                 const user = await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $pull: { chrrps: chrrp._id } },
@@ -77,40 +76,8 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in!');
         },
-        addComment: async (parent, { chrrpId, commentText }, context) => {
-            if (context.user) {
-                return await Chrrp.findOneAndUpdate(
-                    { _id: chrrpId },
-                    {
-                        $push: {
-                            comments: {
-                                commentText,
-                                commentAuthor: context.user.userName,
-                            },
-                        },
-                    },
-                    {
-                        new: true,
-                        runValidators: true,
-                    }
-                );
-            }
         
-            throw new AuthenticationError('You need to be logged in!');
-        },
         
-        deleteComment: async (parent, { chrrpId, commentId }, context) => {
-            if (context.user) {
-                const chrrp = await Chrrp.findByIdAndDelete({ _id: chrrpId });
-                const user = await User.findByIdAndUpdate(
-                    { _id: context.user._id },
-                    { $pull: { chrrps: chrrp._id } },
-                    { new: true }
-                );
-                return user;
-            }
-            throw new AuthenticationError('You need to be logged in!');
-        },
         addchrrpLikes: async (parent, { chrrpId }, context) => {
             if (context.user) {
                 const chrrp = await Chrrp.findOneAndUpdate(
@@ -122,17 +89,7 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in!');
         },
-        addCommentLikes: async (parent, { chrrpId, commentId }, context) => {
-            if (context.user) {
-                const chrrp = await Chrrp.findOneAndUpdate(
-                    { _id: chrrpId },
-                    { $inc: { commentLikes: 1 } },
-                    { new: true }
-                );
-                return chrrp;
-            }
-            throw new AuthenticationError('You need to be logged in!');
-        },
+        
     },
 };
 
