@@ -18,8 +18,18 @@ const userSchema = new Schema({
       type: String,
       required: true,
     },
-    // set currentFollowers to be an array of data that adheres to the follwersSchema
-    currentFollowers: [followersSchema],
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ],
 });
 
 userSchema.pre('save', async function (next) {
