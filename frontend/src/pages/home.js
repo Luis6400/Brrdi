@@ -1,17 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import DefaultSidebar from '../components/nav';
+
 
 
 const Home = () => {
   return (
     <main>
-      <div className="flex-row justify-center">
-        <div className="col-12 col-md-8 mb-3">
-          <header className="mb-5">
-
-            </header>
-        </div>
-      </div>
+      <DefaultSidebar />
     </main>
   );
 };
