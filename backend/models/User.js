@@ -18,6 +18,12 @@ const userSchema = new Schema({
       type: String,
       required: true,
     },
+    chrrps: [
+      {
+          type: Schema.Types.ObjectId,
+          ref: 'Chrrp',
+      },
+  ],
     followers: [
       {
         type: Schema.Types.ObjectId,
