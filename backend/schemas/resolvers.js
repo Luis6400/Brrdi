@@ -41,23 +41,39 @@ const resolvers = {
             return { token, user };
         },
         addChrrp: async (parent, { chrrpText }, context) => {
-            
-            const chrrp = await Chrrp.create({
-                chrrpText,
-                chrrpAuthor: context.user.email, 
-            });
-            
-            return chrrp;
+            if (context.user) {
+                const chrrp = await Chrrp.create({
+                    chrrpText,
+                    chrrpAuthor: context.user._id,
+                });
+                
+                // Add the new chrrp to the user's chrrps
+                await User.findByIdAndUpdate(
+                    context.user._id,
+                    { $push: { chrrps: chrrp._id } },
+                    { new: true, useFindAndModify: false }
+                );
+                
+                return chrrp;
+            }
+            throw new AuthenticationError('You need to be logged in!');
         },
+        
         deleteChrrp: async (parent, { chrrpId }, context) => {
             if (context.user) {
-                const chrrp = await Chrrp.findByIdAndDelete({ _id: chrrpId });
+                const chrrp = await Chrrp.findByIdAndRemove(chrrpId);
+                if (!chrrp) {
+                    throw new Error('No chrrp found with this id');
+                }
+        
+                // Update user chrrps array
                 const user = await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $pull: { chrrps: chrrp._id } },
                     { new: true }
                 );
-                return user;
+                
+                return chrrp;
             }
             throw new AuthenticationError('You need to be logged in!');
         },
@@ -66,7 +82,7 @@ const resolvers = {
                 return await Chrrp.findOneAndUpdate(
                     { _id: chrrpId },
                     {
-                        $addToSet: {
+                        $push: {
                             comments: {
                                 commentText,
                                 commentAuthor: context.user.userName,
@@ -76,13 +92,13 @@ const resolvers = {
                     {
                         new: true,
                         runValidators: true,
-                    
+                    }
+                );
             }
-        );
-
-        throw new AuthenticationError('You need to be logged in!');
-            };
+        
+            throw new AuthenticationError('You need to be logged in!');
         },
+        
         deleteComment: async (parent, { chrrpId, commentId }, context) => {
             if (context.user) {
                 const chrrp = await Chrrp.findByIdAndDelete({ _id: chrrpId });
