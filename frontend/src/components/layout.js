@@ -1,15 +1,18 @@
 import react from 'react';
+import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
+import DefaultSidebar from '../components/nav';
+import Feed from '../components/feed';
+import Adspace from '../components/adspace';
 
-const Layout = () => {
+const Layout = (PropsWithChildren) => {
     return (
-      <div className="grid min-h-screen grid-rows-header bg-zinc-100">
-        <div>Navbar</div>
-        <div className="grid md:grid-cols-sidebar">
-          <div>Sidebar</div>
+        <div class="grid grid-cols-10 gap-4">
+            <div class="col-span-3 relative"><DefaultSidebar/></div>
+            <div class="col-span-4"><Feed/></div>
+            <div class="col-span-3 relative"><Adspace/></div>
         </div>
-      </div>
     );
-  };
-  
-  export default Layout;
+};
+
+export default Layout;
