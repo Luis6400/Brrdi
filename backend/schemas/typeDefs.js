@@ -16,7 +16,6 @@ const typeDefs = gql`
         addchrrpLikes(chrrpId: ID!): Chrrp
         addRechrrps(chrrpId: ID!): Chrrp
         followUser(userName: String!): User
-        deletereChrrps(chrrpId: ID!): Chrrp
     }
     type User {
         _id: ID
@@ -33,7 +32,8 @@ const typeDefs = gql`
         chrrpDate: String
         chrrpLikes: Int
         chrrpRechrrps: Int
-        parentChrrp: ID
+        parentChrrp: Chrrp
+        deleted: Boolean
     }
     type Auth {
         token: ID!

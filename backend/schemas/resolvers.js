@@ -13,7 +13,7 @@ const resolvers = {
         },
         chrrps: async (parent, { userName }) => {
             const params = userName ? { userName } : {};
-            return await Chrrp.find(params).sort({ createdAt: -1 });
+            return await Chrrp.find({ ...params, deleted: false }).sort({ createdAt: -1 });
         },
         me: async (parent, args, context) => {
             if (context.user) {
@@ -61,17 +61,12 @@ const resolvers = {
         
         deleteChrrp: async (parent, { chrrpId }, context) => {
             if (context.user) {
-                const chrrp = await Chrrp.findByIdAndRemove(chrrpId);
+                
+                const chrrp = await Chrrp.findByIdAndUpdate(chrrpId, { deleted: true }, { new: true });
                 if (!chrrp) {
                     throw new Error('No chrrp found with this id');
                 }
-                
-                const user = await User.findByIdAndUpdate(
-                    { _id: context.user._id },
-                    { $pull: { chrrps: chrrp._id } },
-                    { new: true }
-                );
-                
+        
                 return chrrp;
             }
             throw new AuthenticationError('You need to be logged in!');

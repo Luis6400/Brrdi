@@ -31,12 +31,14 @@ const chrrpSchema = new Schema({
         type: Number,
         default: 0,
     },
-    comments: [
-      {
+    parentChrrp: {
         type: Schema.Types.ObjectId,
-        ref: 'Comment'
-      }
-    ],
+        ref: 'Chrrp',
+    },
+    deleted: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const Chrrp = model('Chrrp', chrrpSchema);
