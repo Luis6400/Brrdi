@@ -7,11 +7,11 @@ const resolvers = {
         users: async () => {
             return await User.find();
         },
-        user: async (parent, { username }) => {
-            return await User.findOne({ username }).populate('chrrps');
+        user: async (parent, { userName }) => {
+            return await User.findOne({ userName }).populate('chrrps');
         },
-        chrrps: async (parent, { username }) => {
-            const params = username ? { username } : {};
+        chrrps: async (parent, { userName }) => {
+            const params = userName ? { userName } : {};
             return await Chrrp.find(params).sort({ createdAt: -1 });
         },
         me: async (parent, args, context) => {
@@ -34,15 +34,15 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        addUser: async (parent, { username, email, password }) => {
-            const user = await User.create({ username, email, password });
+        addUser: async (parent, { userName, email, password }) => {
+            const user = await User.create({ userName, email, password });
             const token = signToken(user);
             return { token, user };
         },
         addChrrp: async (parent, { chrrpText }, context) => {
             const chrrp = await Chrrp.create({
                 chrrpText,
-                chrrpAuthor: context.user.username,
+                chrrpAuthor: context.user.userName,
             });
         },
         deleteChrrp: async (parent, { chrrpId }, context) => {
@@ -65,7 +65,7 @@ const resolvers = {
                         $addToSet: {
                             comments: {
                                 commentText,
-                                commentAuthor: context.user.username,
+                                commentAuthor: context.user.userName,
                             },
                         },
                     },
