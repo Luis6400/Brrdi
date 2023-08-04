@@ -1,4 +1,9 @@
 const { Schema, model } = require('mongoose');
+const { format } = require('date-fns');
+
+function dateFormat(timestamp) {
+    return format(timestamp, 'MM-dd-yyyy');
+}
 
 const chrrpSchema = new Schema({
     chrrpText: {
@@ -16,7 +21,7 @@ const chrrpSchema = new Schema({
     chrrpDate: {
         type: Date,
         default: Date.now,
-        get: (timestamp) => dateFormat(timestamp),
+        get: dateFormat,
     },
     chrrpLikes: {
         type: Number,

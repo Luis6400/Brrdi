@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utils/auth');
+const { Chrrp } = require('../models');
 
 const resolvers = {
     Query: {
@@ -40,10 +41,13 @@ const resolvers = {
             return { token, user };
         },
         addChrrp: async (parent, { chrrpText }, context) => {
+            
             const chrrp = await Chrrp.create({
                 chrrpText,
-                chrrpAuthor: context.user.userName,
+                chrrpAuthor: context.user.email, 
             });
+            
+            return chrrp;
         },
         deleteChrrp: async (parent, { chrrpId }, context) => {
             if (context.user) {
