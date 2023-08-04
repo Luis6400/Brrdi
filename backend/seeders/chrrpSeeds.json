@@ -1,0 +1,16 @@
+[
+    {
+      "chrrpText": "This is a chrrp",
+      "chrrpAuthor": "JohnDoe",
+      "chrrpLikes": 2,
+      "chrrpRechrrps": 1,
+      "deleted": false
+    },
+    {
+      "chrrpText": "Another chrrp",
+      "chrrpAuthor": "JaneDoe",
+      "chrrpLikes": 3,
+      "chrrpRechrrps": 0,
+      "deleted": false
+    }
+  ]
