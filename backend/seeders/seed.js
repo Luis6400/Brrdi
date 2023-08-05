@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 // need to fix this
-const db = require('./config/connection.js');
-const { User, Chrrp } = require('./models');
+const db = require('../config/connection.js');
+const { User, Chrrp } = require('../models');
 const userSeeds = require('./userSeeds.json');
 const chrrpSeeds = require('./chrrpSeeds.json');
 
