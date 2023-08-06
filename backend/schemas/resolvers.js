@@ -35,8 +35,8 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        addUser: async (parent, { userName, email, password }) => {
-            const user = await User.create({ userName, email, password });
+        addUser: async (parent, { userName, email, password, bio }) => {
+            const user = await User.create({ userName, email, password, bio });
             const token = signToken(user);
             return { token, user };
         },
@@ -84,6 +84,25 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in!');
         },
+
+        followUser: async (parent, { userIdToFollow }, context) => {
+            if (context.user) {
+                const currentUser = await User.findById(context.user._id);
+                const userToFollow = await User.findById(userIdToFollow);
+                
+                if (!currentUser.following.includes(userIdToFollow)) {
+                    currentUser.following.push(userIdToFollow);
+                    userToFollow.followers.push(context.user._id);
+                    
+                    await currentUser.save();
+                    await userToFollow.save();
+                }
+        
+                return currentUser;
+            }
+            throw new AuthenticationError('You need to be logged in!');
+        } 
+
         
     },
 };

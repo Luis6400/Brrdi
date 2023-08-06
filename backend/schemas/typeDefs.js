@@ -10,20 +10,20 @@ const typeDefs = gql`
     }
     type Mutation {
         login(email: String!, password: String!): Auth
-        addUser(userName: String!, email: String!, password: String!): Auth
+        addUser(userName: String!, email: String!, password: String!, bio: String): Auth
         addChrrp(chrrpText: String!, parentChrrpId: ID): Chrrp
         deleteChrrp(chrrpId: ID!): Chrrp
         addchrrpLikes(chrrpId: ID!): Chrrp
-        addRechrrps(chrrpId: ID!): Chrrp
-        followUser(userName: String!): User
+        followUser(userIdToFollow: ID!): User
     }
     type User {
         _id: ID
         userName: String
         email: String
         chrrps: [Chrrp]
-        followers: [User]
-        following: [User]
+        followers: [ID]
+        following: [ID]
+        bio: String
     }
     type Chrrp {
         _id: ID
