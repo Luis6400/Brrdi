@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utils/auth');
+const { Chrrp } = require('../models');
 
 const resolvers = {
     Query: {
@@ -12,7 +13,7 @@ const resolvers = {
         },
         chrrps: async (parent, { userName }) => {
             const params = userName ? { userName } : {};
-            return await Chrrp.find(params).sort({ createdAt: -1 });
+            return await Chrrp.find({ ...params, deleted: false }).sort({ createdAt: -1 });
         },
         me: async (parent, args, context) => {
             if (context.user) {
@@ -34,63 +35,44 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        addUser: async (parent, { userName, email, password }) => {
-            const user = await User.create({ userName, email, password });
+        addUser: async (parent, { userName, email, password, bio }) => {
+            const user = await User.create({ userName, email, password, bio });
             const token = signToken(user);
             return { token, user };
         },
-        addChrrp: async (parent, { chrrpText }, context) => {
-            const chrrp = await Chrrp.create({
-                chrrpText,
-                chrrpAuthor: context.user.userName,
-            });
+        addChrrp: async (parent, { chrrpText, parentChrrpId }, context) => {
+            if (context.user) {
+                const chrrp = await Chrrp.create({
+                    chrrpText,
+                    chrrpAuthor: context.user._id,
+                    parentChrrp: parentChrrpId || null,
+                });
+                
+                await User.findByIdAndUpdate(
+                    context.user._id,
+                    { $push: { chrrps: chrrp._id } },
+                    { new: true, useFindAndModify: false }
+                );
+                
+                return chrrp;
+            }
+            throw new AuthenticationError('You need to be logged in!');
         },
+        
         deleteChrrp: async (parent, { chrrpId }, context) => {
             if (context.user) {
-                const chrrp = await Chrrp.findByIdAndDelete({ _id: chrrpId });
-                const user = await User.findByIdAndUpdate(
-                    { _id: context.user._id },
-                    { $pull: { chrrps: chrrp._id } },
-                    { new: true }
-                );
-                return user;
+                
+                const chrrp = await Chrrp.findByIdAndUpdate(chrrpId, { deleted: true }, { new: true });
+                if (!chrrp) {
+                    throw new Error('No chrrp found with this id');
+                }
+        
+                return chrrp;
             }
             throw new AuthenticationError('You need to be logged in!');
         },
-        addComment: async (parent, { chrrpId, commentText }, context) => {
-            if (context.user) {
-                return await Chrrp.findOneAndUpdate(
-                    { _id: chrrpId },
-                    {
-                        $addToSet: {
-                            comments: {
-                                commentText,
-                                commentAuthor: context.user.userName,
-                            },
-                        },
-                    },
-                    {
-                        new: true,
-                        runValidators: true,
-                    
-            }
-        );
-
-        throw new AuthenticationError('You need to be logged in!');
-            };
-        },
-        deleteComment: async (parent, { chrrpId, commentId }, context) => {
-            if (context.user) {
-                const chrrp = await Chrrp.findByIdAndDelete({ _id: chrrpId });
-                const user = await User.findByIdAndUpdate(
-                    { _id: context.user._id },
-                    { $pull: { chrrps: chrrp._id } },
-                    { new: true }
-                );
-                return user;
-            }
-            throw new AuthenticationError('You need to be logged in!');
-        },
+        
+        
         addchrrpLikes: async (parent, { chrrpId }, context) => {
             if (context.user) {
                 const chrrp = await Chrrp.findOneAndUpdate(
@@ -102,17 +84,26 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in!');
         },
-        addCommentLikes: async (parent, { chrrpId, commentId }, context) => {
+
+        followUser: async (parent, { userIdToFollow }, context) => {
             if (context.user) {
-                const chrrp = await Chrrp.findOneAndUpdate(
-                    { _id: chrrpId },
-                    { $inc: { commentLikes: 1 } },
-                    { new: true }
-                );
-                return chrrp;
+                const currentUser = await User.findById(context.user._id);
+                const userToFollow = await User.findById(userIdToFollow);
+                
+                if (!currentUser.following.includes(userIdToFollow)) {
+                    currentUser.following.push(userIdToFollow);
+                    userToFollow.followers.push(context.user._id);
+                    
+                    await currentUser.save();
+                    await userToFollow.save();
+                }
+        
+                return currentUser;
             }
             throw new AuthenticationError('You need to be logged in!');
-        },
+        } 
+
+        
     },
 };
 
