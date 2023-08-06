@@ -36,6 +36,12 @@ const userSchema = new Schema({
         ref: "User"
       }
     ],
+     bio: {
+      type: String,
+      default: "Welcome to my page!",
+      maxlength: 180,
+  },
+
 });
 
 userSchema.pre('save', async function (next) {
