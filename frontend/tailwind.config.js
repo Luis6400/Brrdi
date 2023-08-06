@@ -8,6 +8,7 @@ module.exports = withMT({
     './src/pages/**/*.{vue,js,ts,jsx,tsx}'
   ],
   theme: {
+    
     extend: {
       gridTemplateColumns: {
         sidebar: "300px auto",
