@@ -1,7 +1,7 @@
 
-import React from "react";
+import React, {useState} from "react";
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
+import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 
@@ -14,19 +14,17 @@ import {
     Input,
 } from "@material-tailwind/react";
 
-import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
-import Auth from '../utils/auth';
+
 
 const SignupCard = () => {
 
-    const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+    const [userFormData, setUserFormData] = useState({ email: '', password: '', username: '' });
     
   
-    const [login, { error }] = useMutation(LOGIN_USER);
+    const [signup, { error }] = useMutation(ADD_USER);
   
     const handleInputChange = (event) => {
-      const { name, value } = event.target;
+      const { name,userName, value } = event.target;
       setUserFormData({ ...userFormData, [name]: value });
     };
 
@@ -37,15 +35,17 @@ const SignupCard = () => {
         
     
         try { 
-          const { data } = await login({
+          const { data } = await signup({
             variables: { ...userFormData }
           });
     
           // Data returned from GraphQL mutation
           if (data) {
-            const { token, user } = data.login;  // login should be the name of your mutation in the response
+            const { token, user } = data.signup;  // login should be the name of your mutation in the response
             console.log(user);
-            Auth.login(token);
+            Auth.signup(token);
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', token);
           } else {
             throw new Error('No response data from the server!');
           }
@@ -53,13 +53,12 @@ const SignupCard = () => {
           console.error(err);
          
         }
-    
         setUserFormData({
-          email: '',
-          password: '',
-        });
+            username: '',
+            email: '',
+            password: '',
+            });
 
-        window.location.assign('/');
     };
 
 
@@ -93,9 +92,13 @@ const SignupCard = () => {
 
                         <Input variant="standard" name="password" value={userFormData.password} onChange={handleInputChange} label="Password" color="pink" className="" />
                     </div>
-                    
+
+                    <div className="m-3 ">
+
+                        <Input variant="standard" name="userName" value={userFormData.userName} onChange={handleInputChange} label="Username" color="pink" className="" />
+                    </div>
                     <a href="#" className=" inline-block">
-                        <Button disabled={!(userFormData.email && userFormData.password)} onClick={handleFormSubmit} variant="text" color="pink" className="flex items-center gap-2">
+                        <Button disabled={!(userFormData.email && userFormData.password && userFormData.userName)} onClick={handleFormSubmit} variant="text" color="pink" className="flex items-center gap-2">
                             Sign up
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
