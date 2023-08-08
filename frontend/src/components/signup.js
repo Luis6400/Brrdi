@@ -18,17 +18,12 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
-const LoginCard = () => {
+const SignupCard = () => {
 
     const [userFormData, setUserFormData] = useState({ email: '', password: '' });
     
   
     const [login, { error }] = useMutation(LOGIN_USER);
-
-    const handleSignup = (event) => {
-        event.preventDefault();
-        window.location.assign('/signup');
-    }
   
     const handleInputChange = (event) => {
       const { name, value } = event.target;
@@ -51,8 +46,6 @@ const LoginCard = () => {
             const { token, user } = data.login;  // login should be the name of your mutation in the response
             console.log(user);
             Auth.login(token);
-            localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('token', token);
           } else {
             throw new Error('No response data from the server!');
           }
@@ -100,31 +93,9 @@ const LoginCard = () => {
 
                         <Input variant="standard" name="password" value={userFormData.password} onChange={handleInputChange} label="Password" color="pink" className="" />
                     </div>
-                    <a href="#" className="row-span-1 inline-block">
-                        <Button disabled={!(userFormData.email && userFormData.password)} onClick={handleFormSubmit} variant="text" color="pink" className="m-2 flex items-center gap-2">
-                            Log in
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                                className="h-4 w-4"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                                />
-                            </svg>
-                        </Button>
-                    </a>
-
-                </div>
-                <div className="row-span-1">
-
+                    
                     <a href="#" className=" inline-block">
-                        <Button onClick={handleSignup} variant="text" color="pink" className="flex items-center gap-2">
+                        <Button disabled={!(userFormData.email && userFormData.password)} onClick={handleFormSubmit} variant="text" color="pink" className="flex items-center gap-2">
                             Sign up
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +113,9 @@ const LoginCard = () => {
                             </svg>
                         </Button>
                     </a>
+
                 </div>
+               
             </CardBody>
         </Card>
 
@@ -150,4 +123,4 @@ const LoginCard = () => {
 
 }
 
-export default LoginCard;
+export default SignupCard;
