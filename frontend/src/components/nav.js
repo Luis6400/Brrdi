@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
     Card,
     Typography,
@@ -14,6 +13,8 @@ import {
     PowerIcon,
     MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
+import auth from "../utils/auth";
+
 
 
 
@@ -22,6 +23,11 @@ import {
 const DefaultSidebar = () => {
     const [selected, setSelected] = useState(1);
     const setSelectedItem = (value) => setSelected(value);
+    const handleSignOut = () => {
+        auth.logout();
+        window.location.assign("/login");
+    };
+  
     return (
         <div className="sticky top-0 ">
             <Card className="bg-red-200 absolute right-0 h-[calc(100vh)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5  ">
@@ -99,15 +105,11 @@ const DefaultSidebar = () => {
                             Settings
                         </ListItem>
                     )}
-
-
-
-
                     <ListItem>
                         <ListItemPrefix>
                             <PowerIcon className="h-10 w-10" />
                         </ListItemPrefix>
-                        Log Out
+                        <span onClick={handleSignOut}>Logout</span>
                     </ListItem>
 
                 </List>
