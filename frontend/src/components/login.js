@@ -51,6 +51,8 @@ const LoginCard = () => {
             const { token, user } = data.login;  // login should be the name of your mutation in the response
             console.log(user);
             Auth.login(token);
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', token);
           } else {
             throw new Error('No response data from the server!');
           }
