@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
     Card,
@@ -9,7 +10,55 @@ import {
     Input,
 } from "@material-tailwind/react";
 
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutations';
+import Auth from '../utils/auth';
+
 const LoginCard = () => {
+
+    const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+    
+  
+    const [login, { error }] = useMutation(LOGIN_USER);
+  
+    const handleInputChange = (event) => {
+      const { name, value } = event.target;
+      setUserFormData({ ...userFormData, [name]: value });
+    };
+
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+    
+        // check if form has everything (as per react-bootstrap docs)
+        
+    
+        try { 
+          const { data } = await login({
+            variables: { ...userFormData }
+          });
+    
+          // Data returned from GraphQL mutation
+          if (data) {
+            const { token, user } = data.login;  // login should be the name of your mutation in the response
+            console.log(user);
+            Auth.login(token);
+          } else {
+            throw new Error('No response data from the server!');
+          }
+        } catch (err) {
+          console.error(err);
+         
+        }
+    
+        setUserFormData({
+          email: '',
+          password: '',
+        });
+
+        window.location.assign('/');
+    };
+
+
     return <div className="grid items-center justify-center h-screen">
 
         <Card className="flex-row  bg-red-200 w-[calc(70vh)] h-[calc(45vh)]">
@@ -34,14 +83,14 @@ const LoginCard = () => {
                 <div className="row-span-4 pt-8">
                     <div className="m-3 ">
 
-                        <Input variant="standard" label="Username" color="pink" className="" />
+                        <Input variant="standard" value={userFormData.email} name="email" onChange={handleInputChange} label="email" color="pink" className="" />
                     </div>
                     <div className="m-3 ">
 
-                        <Input variant="standard" label="Password" color="pink" className="" />
+                        <Input variant="standard" name="password" value={userFormData.password} onChange={handleInputChange} label="Password" color="pink" className="" />
                     </div>
                     <a href="#" className="row-span-1 inline-block">
-                        <Button variant="text" color="pink" className="m-2 flex items-center gap-2">
+                        <Button disabled={!(userFormData.email && userFormData.password)} onClick={handleFormSubmit} variant="text" color="pink" className="m-2 flex items-center gap-2">
                             Log in
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
