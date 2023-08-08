@@ -1,9 +1,9 @@
 
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
-
+import { useNavigate } from 'react-router-dom';
 
 import {
     Card,
@@ -14,52 +14,47 @@ import {
     Input,
 } from "@material-tailwind/react";
 
-
-
 const SignupCard = () => {
-
-    const [userFormData, setUserFormData] = useState({ email: '', password: '', username: '' });
+    const navigate = useNavigate();
+    const [userFormData, setUserFormData] = useState({ email: '', password: '', userName: '' });
     
-  
     const [signup, { error }] = useMutation(ADD_USER);
-  
+    
     const handleInputChange = (event) => {
-      const { name,userName, value } = event.target;
-      setUserFormData({ ...userFormData, [name]: value });
+        const { name, value } = event.target; 
+        setUserFormData({ ...userFormData, [name]: value });
     };
-
+    
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-    
-        // check if form has everything (as per react-bootstrap docs)
         
-    
-        try { 
-          const { data } = await signup({
-            variables: { ...userFormData }
-          });
-    
-          // Data returned from GraphQL mutation
-          if (data) {
-            const { token, user } = data.signup;  // login should be the name of your mutation in the response
-            console.log(user);
-            Auth.signup(token);
-            localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('token', token);
-          } else {
-            throw new Error('No response data from the server!');
-          }
-        } catch (err) {
-          console.error(err);
-         
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
         }
-        setUserFormData({
-            username: '',
-            email: '',
-            password: '',
+        
+        try { console.log(userFormData);
+            const { data } = await signup({
+                variables: { ...userFormData }
             });
+            console.log(data);
+            console.log(error)
+            
+            const { token, user } = data.addUser;
+            Auth.login(token);
+            navigate('/home'); 
+            } catch (err) {
+            console.error(err);
+            }
+    
+        setUserFormData({
+          userName: '',
+          email: '',
+          password: '',
+        });
+      };
 
-    };
 
 
     return <div className="grid items-center justify-center h-screen">
