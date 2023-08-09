@@ -46,7 +46,7 @@ const SignupCard = () => {
             
             const { token, user } = data.addUser;
             Auth.login(token);
-            navigate('/home'); 
+            navigate('/feed'); 
             } catch (err) {
             console.error(err);
             }

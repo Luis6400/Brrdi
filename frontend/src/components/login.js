@@ -56,7 +56,7 @@ const LoginCard = () => {
               password: '',
             });
             
-            window.location.assign('/');
+            window.location.assign('/feed');
           } else {
             throw new Error('No response data from the server!');
           }
