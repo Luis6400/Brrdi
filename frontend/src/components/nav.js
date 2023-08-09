@@ -14,6 +14,7 @@ import {
     MagnifyingGlassIcon,
 } from "@heroicons/react/24/solid";
 import auth from "../utils/auth";
+import {useNavigate } from "react-router-dom";
 
 
 
@@ -22,20 +23,13 @@ import auth from "../utils/auth";
 
 const DefaultSidebar = () => {
     const [selected, setSelected] = useState();
-    const setSelectedItem = (e) => {
-        setSelected(e.target.value)
-        localStorage.setItem("selected", selected);
-        const data = e.target.data;
-        window.location.assign({data})
-    
-    };
     const handleSignOut = () => {
         auth.logout();
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         window.location.assign("/login");
     };
-  
+const navigate = useNavigate();
     return (
         <div className="sticky top-0 ">
             <Card className="bg-red-200 absolute right-0 h-[calc(100vh)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5  ">
@@ -46,7 +40,7 @@ const DefaultSidebar = () => {
                 </div>
                 <List>
                     
-                        <ListItem value = '1' data = "/feed" className="outline-red-200" selected={selected === 1} onClick={window.assign("/feed")}>
+                        <ListItem value = '1' data = "/feed" className="outline-red-200" selected={selected === 1} onClick={()=>navigate("/feed")}>
 
                             <ListItemPrefix>
                                 <PresentationChartBarIcon className="h-10 w-10" />
@@ -56,7 +50,7 @@ const DefaultSidebar = () => {
 
 
                    
-                        <ListItem value = '2' data = "/profile" className="outline-red-200" selected={selected === 2} onClick={window.assign("/profile")}>
+                        <ListItem value = '2' data = "/profile" className="outline-red-200" selected={selected === 2} onClick={()=>navigate("/profile")}>
                             <ListItemPrefix>
                                 <UserCircleIcon className="h-10 w-10" />
                             </ListItemPrefix>
@@ -65,7 +59,7 @@ const DefaultSidebar = () => {
 
 
                     
-                        <ListItem value = '3' data = "/search" className="outline-red-200" selected={selected === 3} onClick={window.assign("/profile")}>
+                        <ListItem value = '3' data = "/search" className="outline-red-200" selected={selected === 3} onClick={()=>navigate("/search")}>
                             <ListItemPrefix>
                                 <MagnifyingGlassIcon className="h-10 w-10" />
                             </ListItemPrefix>
@@ -79,20 +73,13 @@ const DefaultSidebar = () => {
 
                     <hr className="my-2  border-gray-800" />
 
-                    {selected === 4 ? (
-                        <ListItem value = '4' className="outline-red-200" selected={selected === 4} onClick={() => setSelectedItem(4)}>
-                            <ListItemPrefix>
-                                <Cog6ToothIcon className="h-10 w-10" />
-                            </ListItemPrefix>
-                            Settings
-                        </ListItem>) : (
-                        <ListItem value = '4' selected={selected === 4} onClick={() => setSelectedItem(4)} className="text-lg">
+                        <ListItem value = '4' className="outline-red-200" selected={selected === 4}>
                             <ListItemPrefix>
                                 <Cog6ToothIcon className="h-10 w-10" />
                             </ListItemPrefix>
                             Settings
                         </ListItem>
-                    )}
+
                     <ListItem>
                         <ListItemPrefix>
                             <PowerIcon className="h-10 w-10" />
