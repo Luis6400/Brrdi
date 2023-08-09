@@ -25,6 +25,8 @@ const DefaultSidebar = () => {
     const setSelectedItem = (value) => setSelected(value);
     const handleSignOut = () => {
         auth.logout();
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
         window.location.assign("/login");
     };
   
