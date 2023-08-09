@@ -17,8 +17,11 @@ const resolvers = {
         },
         me: async (parent, args, context) => {
             if (context.user) {
-              return await User.findOne({ _id: context.user._id }).populate('chrrps');
+                const user = await User.findOne({ _id: context.user._id }).populate('chrrps');
+                console.log('Found user:', user);
+                return user;
             }
+            console.log('No user in context');
             throw new AuthenticationError('You need to be logged in!');
         },
     },

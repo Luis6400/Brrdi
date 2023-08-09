@@ -27,6 +27,7 @@ export const QUERY_USER = gql`
             _id
             userName
             email
+            bio
             followers {
                 _id
                 userName
@@ -47,6 +48,35 @@ export const QUERY_USER = gql`
         }
     }
 `;
+
+export const QUERY_ME = gql`
+    query {
+        me {
+            _id
+            userName
+            email
+            bio
+            followers {
+                _id
+                userName
+            }
+            following {
+                _id
+                userName
+            }
+            chrrps {
+                _id
+                chrrpText
+                createdAt
+                chrrpAuthor {
+                    _id
+                    userName
+                }
+            }
+        }
+    }
+`;
+
 
 
 
