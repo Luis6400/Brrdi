@@ -17,11 +17,6 @@ import {
 import auth from "../utils/auth";
 import {useNavigate } from "react-router-dom";
 
-
-
-
-
-
 const DefaultSidebar = () => {
     const [selected, setSelected] = useState();
     const handleSignOut = () => {
@@ -30,9 +25,7 @@ const DefaultSidebar = () => {
         localStorage.removeItem("token");
         window.location.assign("/login");
     };
-    
-        
-
+   
 const navigate = useNavigate();
     return (
         <div className="sticky top-0 ">
