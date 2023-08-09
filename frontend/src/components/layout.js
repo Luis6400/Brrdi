@@ -27,11 +27,13 @@ const Layout = (PropsWithChildren) => {
     };
     return (
         <div class="grid grid-cols-10 gap-4">
-            <div class="col-span-3 relative"><DefaultSidebar onClick = {(handleSelected)} /></div>
+            <div class="col-span-3 relative"><DefaultSidebar/></div>
+            <div class="col-span-4">
             {/* <div class="col-span-4">{handleSelected()}</div> */}
             {pathname.includes("/profile") && <Profile/>}
             {pathname.includes("/search") && <SearchBar/>}
             {pathname.includes("/feed") && <Feed/>}
+            </div>
             <div class="col-span-3 relative"><Adspace/></div>
         </div>
     );

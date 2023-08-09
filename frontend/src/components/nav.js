@@ -45,52 +45,32 @@ const DefaultSidebar = () => {
                     </Typography>
                 </div>
                 <List>
-                    {selected === 1 ? (
-                        <ListItem value = '1' data = "/feed" className="outline-red-200" selected={selected === 1} onClick={() => setSelectedItem(e)}>
-
-                            <ListItemPrefix>
-                                <PresentationChartBarIcon className="h-10 w-10" />
-                            </ListItemPrefix>
-                            Dashboard
-                        </ListItem>) : (
-                        <ListItem value = '1' data = "/feed" selected={selected === 1} onClick={() => setSelectedItem(e)}>
+                    
+                        <ListItem value = '1' data = "/feed" className="outline-red-200" selected={selected === 1} onClick={window.assign("/feed")}>
 
                             <ListItemPrefix>
                                 <PresentationChartBarIcon className="h-10 w-10" />
                             </ListItemPrefix>
                             Dashboard
                         </ListItem>
-                    )}
 
 
-                    {selected === 2 ? (
-                        <ListItem value = '2' data = "/profile" className="outline-red-200" selected={selected === 2} onClick={() => setSelectedItem(2)}>
-                            <ListItemPrefix>
-                                <UserCircleIcon className="h-10 w-10" />
-                            </ListItemPrefix>
-                            Profile
-                        </ListItem>) : (
-                        <ListItem value = '2' data = "/profile" selected={selected === 2} onClick={() => setSelectedItem(2)}>
+                   
+                        <ListItem value = '2' data = "/profile" className="outline-red-200" selected={selected === 2} onClick={window.assign("/profile")}>
                             <ListItemPrefix>
                                 <UserCircleIcon className="h-10 w-10" />
                             </ListItemPrefix>
                             Profile
                         </ListItem>
-                    )}
-                    {selected === 3 ? (
-                        <ListItem value = '3' data = "/search" className="outline-red-200" selected={selected === 3} onClick={() => setSelectedItem(3)}>
-                            <ListItemPrefix>
-                                <MagnifyingGlassIcon className="h-10 w-10" />
-                            </ListItemPrefix>
-                            Search
-                        </ListItem>) : (
-                        <ListItem value = '3' data = "/search" selected={selected === 3} onClick={() => setSelectedItem(3)}>
+
+
+                    
+                        <ListItem value = '3' data = "/search" className="outline-red-200" selected={selected === 3} onClick={window.assign("/profile")}>
                             <ListItemPrefix>
                                 <MagnifyingGlassIcon className="h-10 w-10" />
                             </ListItemPrefix>
                             Search
                         </ListItem>
-                    )}
                 </List>
 
 
