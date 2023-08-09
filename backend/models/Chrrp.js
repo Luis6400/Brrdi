@@ -14,9 +14,9 @@ const chrrpSchema = new Schema({
         trim: true,
     },
     chrrpAuthor: {
-        type: String,
-        required: true,
-        trim: true,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     chrrpDate: {
         type: Date,

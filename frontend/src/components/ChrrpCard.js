@@ -18,7 +18,7 @@ const ChrrpCard = ({ chrrp }) => {
                 <Card boxShadow="none" className="m-2 h-5 bg-transparent shadow-none flex-row">
                     <UserCircleIcon className="absolute bottom-0 h-11 w-11 flex-row" />
                     <Typography color="pink" variant="h5" className=" pl-12 absolute bottom-1">
-                        {chrrp.chrrpAuthor}
+                    {chrrp.chrrpAuthor.userName || 'Anonymous'}
                     </Typography>
                 </Card>
                 <hr className="my-2 border-gray-600" />

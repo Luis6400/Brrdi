@@ -29,7 +29,7 @@ const typeDefs = gql`
     type Chrrp {
         _id: ID
         chrrpText: String
-        chrrpAuthor: String
+        chrrpAuthor: User
         chrrpDate: String
         chrrpLikes: Int
         chrrpRechrrps: Int

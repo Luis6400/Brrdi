@@ -29,14 +29,20 @@ export const ADD_CHRRP = gql`
         addChrrp(chrrpText: $chrrpText, parentChrrpId: $parentChrrpId) {
         _id
         chrrpText
-        chrrpAuthor
+        chrrpAuthor{
+            _id
+            userName
+        }
         chrrpDate
         chrrpLikes
         chrrpRechrrps
         parentChrrp {
             _id
             chrrpText
-            chrrpAuthor
+            chrrpAuthor{
+            _id
+            userName
+            }
             chrrpDate
             chrrpLikes
             chrrpRechrrps

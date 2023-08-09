@@ -61,7 +61,10 @@ export const QUERY_ME = gql`
             chrrps {
                 _id
                 chrrpText
-                chrrpAuthor
+                chrrpAuthor {
+                    _id
+                    userName
+                }
                 chrrpDate
                 chrrpLikes
                 chrrpRechrrps

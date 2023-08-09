@@ -46,11 +46,12 @@ const Chrrp = () => {
                 <button onClick={handleSubmit}>Chrrp!</button>
             </div>
             <div>
-            {chrrps.map(chrrp => (
-            <ChrrpCard key={chrrp._id} chrrp={chrrp} />
-            ))}
+    {chrrps.map(chrrp => {
+        console.log(chrrp);
+        return <ChrrpCard key={chrrp._id} chrrp={chrrp} />;
+    })}
+</div>
 
-            </div>
         </div>
     );
 }

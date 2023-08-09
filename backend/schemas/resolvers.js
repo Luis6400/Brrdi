@@ -12,10 +12,18 @@ const resolvers = {
         user: async (parent, { userName }) => {
             return await User.findOne({ userName }).populate('chrrps');
         },
-        chrrps: async (parent, { userName }) => {
-            const params = userName ? { userName } : {};
-            return await Chrrp.find({ ...params, deleted: false }).sort({ createdAt: -1 });
-        },
+       chrrps: async (parent, { userName }) => {
+    try {
+        const params = userName ? { userName } : {};
+        return await Chrrp.find({ ...params, deleted: false })
+                          .sort({ createdAt: -1 })
+                          .populate('chrrpAuthor');
+    } catch (error) {
+        console.error("Error fetching chrrps:", error);
+        throw new Error("Failed to fetch chrrps");
+    }
+},
+
         me: async (parent, args, context) => {
             if (context.user) {
                 const user = await User.findOne({ _id: context.user._id }).populate('chrrps');
