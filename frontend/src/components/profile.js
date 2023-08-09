@@ -10,6 +10,8 @@ import {
     IconButton,
 } from "@material-tailwind/react";
 
+import Feed from "./feed";
+
 import {
 
     PlusIcon,
@@ -20,6 +22,7 @@ import {
 
 const Profile = () => {
     return (
+        <div>
         <div className="flex justify-center">
             <Card className=" w-full ">
                 <div className="w-full flex justify-center">
@@ -50,6 +53,9 @@ const Profile = () => {
                     </IconButton>
                 </CardFooter>
             </Card>
+            </div>
+
+            <Feed/>
 
         </div>
     )
