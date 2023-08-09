@@ -12,6 +12,7 @@ import {
     Cog6ToothIcon,
     PowerIcon,
     MagnifyingGlassIcon,
+    ArrowUpCircleIcon
 } from "@heroicons/react/24/solid";
 import auth from "../utils/auth";
 import {useNavigate } from "react-router-dom";
@@ -65,6 +66,14 @@ const navigate = useNavigate();
                             </ListItemPrefix>
                             Search
                         </ListItem>
+
+                        <ListItem>
+                            <ListItemPrefix>
+                                <ArrowUpCircleIcon className="h-10 w-10" />
+                            </ListItemPrefix>
+                            Upload
+
+                        </ListItem>
                 </List>
 
 
@@ -73,7 +82,7 @@ const navigate = useNavigate();
 
                     <hr className="my-2  border-gray-800" />
 
-                        <ListItem value = '4' className="outline-red-200" selected={selected === 4}>
+                        <ListItem value = '4' className="outline-red-200" selected={selected === 4} onClick={()=>navigate("/settings")}>
                             <ListItemPrefix>
                                 <Cog6ToothIcon className="h-10 w-10" />
                             </ListItemPrefix>

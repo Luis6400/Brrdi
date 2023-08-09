@@ -5,6 +5,8 @@ import {
     Input,
 } from "@material-tailwind/react";
 
+import Feed from "./feed";
+
 const SearchBar = () => {
 return <div className="">
 
@@ -12,6 +14,7 @@ return <div className="">
 
             <Input color="pink" className="w-full " type="text" placeholder="Search" />
         </Card>
+        <Feed/>
     
 
     </div>;

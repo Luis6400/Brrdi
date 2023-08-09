@@ -37,6 +37,7 @@ function App() {
           <Route path="/feed" element={<Home />} />
           <Route path="/profile" element={<Home />} />
           <Route path="/search" element={<Home />} />
+          <Route path="/settings" element={<Home />} />
         </Routes>
       </Router>
     </ApolloProvider>
