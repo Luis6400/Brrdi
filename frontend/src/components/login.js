@@ -1,9 +1,7 @@
-
-import React from "react";
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
-
+import React, {useState} from "react";
 
 import {
     Card,
@@ -14,9 +12,7 @@ import {
     Input,
 } from "@material-tailwind/react";
 
-import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
-import Auth from '../utils/auth';
+
 
 const LoginCard = () => {
 
