@@ -34,6 +34,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Home />} />
+          <Route path="/feed" element={<Home />} />
+          <Route path="/profile" element={<Home />} />
+          <Route path="/search" element={<Home />} />
         </Routes>
       </Router>
     </ApolloProvider>

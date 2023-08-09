@@ -21,8 +21,14 @@ import auth from "../utils/auth";
 
 
 const DefaultSidebar = () => {
-    const [selected, setSelected] = useState(1);
-    const setSelectedItem = (value) => setSelected(value);
+    const [selected, setSelected] = useState();
+    const setSelectedItem = (e) => {
+        setSelected(e.target.value)
+        localStorage.setItem("selected", selected);
+        const data = e.target.data;
+        window.location.assign({data})
+    
+    };
     const handleSignOut = () => {
         auth.logout();
         localStorage.removeItem("user");
@@ -40,14 +46,14 @@ const DefaultSidebar = () => {
                 </div>
                 <List>
                     {selected === 1 ? (
-                        <ListItem className="outline-red-200" selected={selected === 1} onClick={() => setSelectedItem(1)}>
+                        <ListItem value = '1' data = "/feed" className="outline-red-200" selected={selected === 1} onClick={() => setSelectedItem(e)}>
 
                             <ListItemPrefix>
                                 <PresentationChartBarIcon className="h-10 w-10" />
                             </ListItemPrefix>
                             Dashboard
                         </ListItem>) : (
-                        <ListItem selected={selected === 1} onClick={() => setSelectedItem(1)}>
+                        <ListItem value = '1' data = "/feed" selected={selected === 1} onClick={() => setSelectedItem(e)}>
 
                             <ListItemPrefix>
                                 <PresentationChartBarIcon className="h-10 w-10" />
@@ -58,13 +64,13 @@ const DefaultSidebar = () => {
 
 
                     {selected === 2 ? (
-                        <ListItem className="outline-red-200" selected={selected === 2} onClick={() => setSelectedItem(2)}>
+                        <ListItem value = '2' data = "/profile" className="outline-red-200" selected={selected === 2} onClick={() => setSelectedItem(2)}>
                             <ListItemPrefix>
                                 <UserCircleIcon className="h-10 w-10" />
                             </ListItemPrefix>
                             Profile
                         </ListItem>) : (
-                        <ListItem selected={selected === 2} onClick={() => setSelectedItem(2)}>
+                        <ListItem value = '2' data = "/profile" selected={selected === 2} onClick={() => setSelectedItem(2)}>
                             <ListItemPrefix>
                                 <UserCircleIcon className="h-10 w-10" />
                             </ListItemPrefix>
@@ -72,13 +78,13 @@ const DefaultSidebar = () => {
                         </ListItem>
                     )}
                     {selected === 3 ? (
-                        <ListItem className="outline-red-200" selected={selected === 3} onClick={() => setSelectedItem(3)}>
+                        <ListItem value = '3' data = "/search" className="outline-red-200" selected={selected === 3} onClick={() => setSelectedItem(3)}>
                             <ListItemPrefix>
                                 <MagnifyingGlassIcon className="h-10 w-10" />
                             </ListItemPrefix>
                             Search
                         </ListItem>) : (
-                        <ListItem selected={selected === 3} onClick={() => setSelectedItem(3)}>
+                        <ListItem value = '3' data = "/search" selected={selected === 3} onClick={() => setSelectedItem(3)}>
                             <ListItemPrefix>
                                 <MagnifyingGlassIcon className="h-10 w-10" />
                             </ListItemPrefix>
@@ -94,13 +100,13 @@ const DefaultSidebar = () => {
                     <hr className="my-2  border-gray-800" />
 
                     {selected === 4 ? (
-                        <ListItem className="outline-red-200" selected={selected === 4} onClick={() => setSelectedItem(4)}>
+                        <ListItem value = '4' className="outline-red-200" selected={selected === 4} onClick={() => setSelectedItem(4)}>
                             <ListItemPrefix>
                                 <Cog6ToothIcon className="h-10 w-10" />
                             </ListItemPrefix>
                             Settings
                         </ListItem>) : (
-                        <ListItem selected={selected === 4} onClick={() => setSelectedItem(4)} className="text-lg">
+                        <ListItem value = '4' selected={selected === 4} onClick={() => setSelectedItem(4)} className="text-lg">
                             <ListItemPrefix>
                                 <Cog6ToothIcon className="h-10 w-10" />
                             </ListItemPrefix>
