@@ -59,7 +59,7 @@ const navigate = useNavigate();
 
 
                     
-                        <ListItem value = '3' data = "/search" className="outline-red-200" selected={selected === 3} onClick={()=>navigate("/profile")}>
+                        <ListItem value = '3' data = "/search" className="outline-red-200" selected={selected === 3} onClick={()=>navigate("/search")}>
                             <ListItemPrefix>
                                 <MagnifyingGlassIcon className="h-10 w-10" />
                             </ListItemPrefix>
