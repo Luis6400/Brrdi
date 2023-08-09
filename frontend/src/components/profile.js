@@ -1,10 +1,10 @@
 import React from "react";
 import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
+import ChrrpCard from "./ChrrpCard";
 
 import {
     Card,
-    CardHeader,
     CardBody,
     CardFooter,
     Typography,
@@ -18,21 +18,19 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 const Profile = () => {
     const { data } = useQuery(QUERY_ME);
     console.log(data)
+
     // Check if data is available and extract user details
     const user = data?.me || {};
 
-    
+    if (!data?.me) {
+        // Return a message or a redirect based on your preference
+        return <Typography color="blue-gray" className="text-center">Please log in to view your profile.</Typography>;
+    }
 
     return (
         <div>
             <div className="flex justify-center">
                 <Card className=" w-full ">
-                    <div className="w-full flex justify-center">
-                        {/* Adjust the src as needed, I'm using a default image for now */}
-                        <CardHeader floated={false} className="w-80 h-80">
-                            <img className="object-fill w-80 h-80" src={user.profileImage || 'https://via.placeholder.com/400'} alt="profile-picture" />
-                        </CardHeader>
-                    </div>
                     <CardBody className="text-center">
                         <Typography variant="h4" color="pink" className="mb-2">
                             {user.userName || 'Default Name'}
@@ -40,7 +38,7 @@ const Profile = () => {
                         <Typography color="blue-gray" className="font-bold" textGradient>
                             {user.bio || 'This user has no bio.'}
                         </Typography>
-                        <hr className="my-2  border-red-200" />
+                        <hr className="my-2 border-red-200" />
                         {/* Assuming you have followers and following data on your user */}
                         <Typography color="blue-gray" className="font-bold" textGradient>
                             Followers: {user.followers?.length || 0}
@@ -57,10 +55,28 @@ const Profile = () => {
                 </Card>
             </div>
 
-            <Feed />
+            {/* User's Chrrps Section */}
+            <div className="mt-8">
+                <Typography variant="h5" color="blue-gray" className="mb-4 text-center">
+                    Your Chrrps
+                </Typography>
 
+                {user.chrrps && user.chrrps.length > 0 ? (
+                user.chrrps.map(chrrp => (
+                <ChrrpCard key={chrrp._id} chrrp={chrrp} />
+                ))
+                ) : (
+                    <Typography color="blue-gray" className="text-center">
+                        You haven't created any chrrps yet.
+                    </Typography>
+                )}
+            </div>
+
+            {/* You can also display the global Feed component here if needed */}
+            <Feed />
         </div>
     )
 }
 
 export default Profile;
+

@@ -71,6 +71,34 @@ export const QUERY_ME = gql`
     }
 `;
 
+export const GET_FEED = gql`
+    query getFeed {
+        chrrps {
+            _id
+            chrrpText
+            chrrpAuthor {
+                _id
+                userName
+            }
+            chrrpDate
+            chrrpLikes
+            chrrpRechrrps
+            parentChrrp {
+                _id
+                chrrpText
+                chrrpAuthor {
+                    _id
+                    userName
+                }
+                chrrpDate
+                chrrpLikes
+                chrrpRechrrps
+            }
+            deleted
+        }
+    }
+`;
+
 
 
 
