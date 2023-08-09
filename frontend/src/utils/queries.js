@@ -56,22 +56,16 @@ export const QUERY_ME = gql`
             userName
             email
             bio
-            followers {
-                _id
-                userName
-            }
-            following {
-                _id
-                userName
-            }
+            followers
+            following
             chrrps {
                 _id
                 chrrpText
-                createdAt
-                chrrpAuthor {
-                    _id
-                    userName
-                }
+                chrrpAuthor
+                chrrpDate
+                chrrpLikes
+                chrrpRechrrps
+                deleted
             }
         }
     }

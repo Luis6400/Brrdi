@@ -15,6 +15,7 @@ const typeDefs = gql`
         deleteChrrp(chrrpId: ID!): Chrrp
         addchrrpLikes(chrrpId: ID!): Chrrp
         followUser(userIdToFollow: ID!): User
+        updateUser(userId: ID!, userName: String, password: String, bio: String): User
     }
     type User {
         _id: ID

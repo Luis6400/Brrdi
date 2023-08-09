@@ -2,6 +2,7 @@ const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utils/auth');
 const { Chrrp } = require('../models');
+const bcrypt = require('bcrypt');
 
 const resolvers = {
     Query: {
@@ -74,9 +75,7 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in!');
         },
-        
-        
-        addchrrpLikes: async (parent, { chrrpId }, context) => {
+     addchrrpLikes: async (parent, { chrrpId }, context) => {
             if (context.user) {
                 const chrrp = await Chrrp.findOneAndUpdate(
                     { _id: chrrpId },
@@ -104,7 +103,24 @@ const resolvers = {
                 return currentUser;
             }
             throw new AuthenticationError('You need to be logged in!');
-        } 
+        }, 
+        
+        async updateUser(parent, { userId, userName, password, bio }, context) {
+            if (!context.user) {
+                throw new AuthenticationError('You need to be logged in!');
+            }
+            
+            const updatedFields = {};
+            if (userName) updatedFields.userName = userName;
+            if (password) {
+                const saltRounds = 10;
+                updatedFields.password = await bcrypt.hash(password, saltRounds);
+            }
+            if (bio) updatedFields.bio = bio;
+            
+            return await User.findByIdAndUpdate(userId, updatedFields, { new: true });
+        },
+
 
         
     },
