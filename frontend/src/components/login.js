@@ -4,7 +4,6 @@ import React, {useState} from "react";
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
-import React, {useState} from "react";
 
 import {
     Card,
@@ -52,6 +51,12 @@ const LoginCard = () => {
             Auth.login(token);
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('token', token);
+            setUserFormData({
+              email: '',
+              password: '',
+            });
+            
+            window.location.assign('/');
           } else {
             throw new Error('No response data from the server!');
           }
@@ -60,12 +65,6 @@ const LoginCard = () => {
          
         }
     
-        setUserFormData({
-          email: '',
-          password: '',
-        });
-
-        window.location.assign('/');
     };
 
 
