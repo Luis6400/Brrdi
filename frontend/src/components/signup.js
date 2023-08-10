@@ -28,6 +28,10 @@ const SignupCard = () => {
         setUserFormData({ ...userFormData, [name]: value });
     };
     
+    const handleLogin = (event) => {
+        event.preventDefault();
+        window.location.assign('/login');
+    }
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         
@@ -84,20 +88,39 @@ const SignupCard = () => {
                 <div className="row-span-4 pt-8">
                     <div className="m-3 ">
 
-                        <Input variant="standard" value={userFormData.email} name="email" onChange={handleInputChange} label="email" color="pink" className="" />
+                        <Input variant="standard" value={userFormData.email} name="email" onChange={handleInputChange} label="email" color="pink" className="bg-transparent" />
                     </div>
                     <div className="m-3 ">
 
-                        <Input variant="standard" name="password" type="password" value={userFormData.password} onChange={handleInputChange} label="Password" color="pink" className="" />
+                        <Input variant="standard" name="password" type="password" value={userFormData.password} onChange={handleInputChange} label="Password" color="pink" className="bg-red-200" />
                     </div>
 
                     <div className="m-3 ">
 
-                        <Input variant="standard" name="userName" value={userFormData.userName} onChange={handleInputChange} label="Username" color="pink" className="" />
+                        <Input variant="standard" name="userName" value={userFormData.userName} onChange={handleInputChange} label="Username" color="pink" className="bg-red-200" />
                     </div>
                     <a href="#" className=" inline-block">
                         <Button disabled={!(userFormData.email && userFormData.password && userFormData.userName)} onClick={handleFormSubmit} variant="text" color="pink" className="flex items-center gap-2">
                             Sign up
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                                className="h-4 w-4"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                                />
+                            </svg>
+                        </Button>
+                    </a>
+                    <a href="#" className=" inline-block">
+                        <Button  onClick={handleLogin} variant="text" color="pink" className="flex items-center gap-2">
+                            back to Login
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
