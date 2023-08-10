@@ -16,7 +16,7 @@ const server = new ApolloServer({
 });
 
 app.use(cors({
-  origin: ['http://localhost:3000',"https://brrdi-aeb82933537b.herokuapp.com/", 'https://studio.apollographql.com']
+  origin: ['http://localhost:3000',"https://brrdi-aeb82933537b.herokuapp.com", 'https://studio.apollographql.com']
 }));
 
 app.use(express.urlencoded({ extended: false }));
