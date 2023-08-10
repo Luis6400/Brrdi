@@ -27,8 +27,8 @@ const Chrrp = () => {
     const handleSubmit = async () => {
         try {
             const { data } = await addChrrp({ variables: { chrrpText } });
-            setChrrpText(''); // Clear the input
-            setChrrps([data.addChrrp, ...chrrps]); // Add the new chrrp to the state
+            setChrrpText(''); //Clear the input
+            setChrrps([data.addChrrp, ...chrrps]); //Add the new chrrp to the state
             window.location.reload();
         } catch (error) {
             console.error("Error adding chrrp:", error);

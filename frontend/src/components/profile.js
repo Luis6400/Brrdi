@@ -13,18 +13,18 @@ import {
     IconButton,
 } from "@material-tailwind/react";
 
-import Feed from "./feed";
+
 import { PlusIcon } from "@heroicons/react/24/solid";
 
 const Profile = () => {
     const { data } = useQuery(QUERY_ME);
-    console.log(data)
+    
 
     // Check if data is available and extract user details
     const user = data?.me || {};
 
     if (!data?.me) {
-        // Return a message or a redirect based on your preference
+       
         return <Typography color="blue-gray" className="text-center">Please log in to view your profile.</Typography>;
     }
 

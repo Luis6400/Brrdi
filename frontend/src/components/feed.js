@@ -11,10 +11,10 @@ function Feed() {
 
     return (
         <div>
-            {/* Chrrp creation component */}
+            {/*Chrrp creation component */}
             <Chrrp />
 
-            {/* Displaying all chrrps */}
+            {/*Displaying all chrrps */}
             {data.chrrps.map(chrrp => (
                 <ChrrpCard key={chrrp._id} chrrp={chrrp} />
             ))}
