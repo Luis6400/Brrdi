@@ -60,7 +60,7 @@ const LoginCard = () => {
                     console.error('Error fetching user data after login:', err);
                 }
                 
-                window.location.assign('/feed');
+                
             } else {
                 throw new Error('No response data from the server!');
             }
