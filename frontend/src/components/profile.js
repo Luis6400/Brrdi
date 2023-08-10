@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 import ChrrpCard from "./ChrrpCard";
+import Chrrp from "./chrrp";
 
 import {
     Card,
@@ -54,7 +55,7 @@ const Profile = () => {
                     </CardFooter>
                 </Card>
             </div>
-
+            <Chrrp/>
             {/* User's Chrrps Section */}
             <div className="mt-8">
                 <Typography variant="h5" color="blue-gray" className="mb-4 text-center">
@@ -72,8 +73,7 @@ const Profile = () => {
                 )}
             </div>
 
-            {/* You can also display the global Feed component here if needed */}
-            <Feed />
+            
         </div>
     )
 }
