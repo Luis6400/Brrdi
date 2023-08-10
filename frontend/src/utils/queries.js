@@ -56,23 +56,48 @@ export const QUERY_ME = gql`
             userName
             email
             bio
-            followers {
-                _id
-                userName
-            }
-            following {
-                _id
-                userName
-            }
+            followers
+            following
             chrrps {
                 _id
                 chrrpText
-                createdAt
                 chrrpAuthor {
                     _id
                     userName
                 }
+                chrrpDate
+                chrrpLikes
+                chrrpRechrrps
+                deleted
             }
+        }
+    }
+`;
+
+export const GET_FEED = gql`
+    query getFeed {
+        chrrps {
+            _id
+            chrrpText
+            chrrpAuthor {
+                _id
+                userName
+            }
+            chrrpDate
+            chrrpLikes
+            chrrpRechrrps
+            parentChrrp {
+                _id
+                chrrpText
+                chrrpAuthor {
+                    _id
+                    userName
+                }
+                chrrpDate
+                chrrpLikes
+                chrrpRechrrps
+            }
+            deleted
         }
     }
 `;

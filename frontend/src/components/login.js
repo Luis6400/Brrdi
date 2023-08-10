@@ -1,8 +1,9 @@
 
 import React, {useState} from "react";
 
-import { useMutation } from '@apollo/client';
+import { useMutation, useApolloClient } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
+import { QUERY_ME } from '../utils/queries';
 import Auth from '../utils/auth';
 
 import {
@@ -19,52 +20,53 @@ import {
 const LoginCard = () => {
 
     const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-    
-  
     const [login, { error }] = useMutation(LOGIN_USER);
+    const client = useApolloClient();
 
     const handleSignup = (event) => {
         event.preventDefault();
         window.location.assign('/signup');
     }
-  
+
     const handleInputChange = (event) => {
-      const { name, value } = event.target;
-      setUserFormData({ ...userFormData, [name]: value });
+        const { name, value } = event.target;
+        setUserFormData({ ...userFormData, [name]: value });
     };
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-    
-        // check if form has everything (as per react-bootstrap docs)
-        
-    
+
         try { 
-          const { data } = await login({
-            variables: { ...userFormData }
-          });
-    
-          // Data returned from GraphQL mutation
-          if (data) {
-            const { token, user } = data.login;  // login should be the name of your mutation in the response
-            console.log(user);
-            Auth.login(token);
-            localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('token', token);
-            setUserFormData({
-              email: '',
-              password: '',
+            const { data } = await login({
+                variables: { ...userFormData }
             });
-            
-            window.location.assign('/feed');
-          } else {
-            throw new Error('No response data from the server!');
-          }
+
+            if (data) {
+                const { token, user } = data.login;
+                Auth.login(token);
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('token', token);
+                setUserFormData({
+                    email: '',
+                    password: '',
+                });
+
+                // Fetch the user's full data after logging in
+                try {
+                    const { data: userData } = await client.query({ query: QUERY_ME });
+                    // You can store userData.me in local storage or context or just use it
+                    console.log('Full user data:', userData.me);
+                } catch (err) {
+                    console.error('Error fetching user data after login:', err);
+                }
+                
+                window.location.assign('/feed');
+            } else {
+                throw new Error('No response data from the server!');
+            }
         } catch (err) {
-          console.error(err);
-         
+            console.error(err);
         }
-    
     };
 
 
@@ -96,7 +98,7 @@ const LoginCard = () => {
                     </div>
                     <div className="m-3 ">
 
-                        <Input variant="standard" name="password" value={userFormData.password} onChange={handleInputChange} label="Password" color="pink" className="" />
+                        <Input variant="standard" name="password" type="password"    value={userFormData.password} onChange={handleInputChange} label="Password" color="pink" className="" />
                     </div>
                     <a href="#" className="row-span-1 inline-block">
                         <Button disabled={!(userFormData.email && userFormData.password)} onClick={handleFormSubmit} variant="text" color="pink" className="m-2 flex items-center gap-2">

@@ -29,14 +29,20 @@ export const ADD_CHRRP = gql`
         addChrrp(chrrpText: $chrrpText, parentChrrpId: $parentChrrpId) {
         _id
         chrrpText
-        chrrpAuthor
+        chrrpAuthor{
+            _id
+            userName
+        }
         chrrpDate
         chrrpLikes
         chrrpRechrrps
         parentChrrp {
             _id
             chrrpText
-            chrrpAuthor
+            chrrpAuthor{
+            _id
+            userName
+            }
             chrrpDate
             chrrpLikes
             chrrpRechrrps
@@ -66,7 +72,7 @@ export const ADD_CHRRP_LIKES = gql`
     }
 `;
 
-const FOLLOW_USER = gql`
+export const FOLLOW_USER = gql`
     mutation followUser($userIdToFollow: ID!) {
         followUser(userIdToFollow: $userIdToFollow) {
             _id
@@ -75,6 +81,18 @@ const FOLLOW_USER = gql`
         }
     }
 `;
+
+export const UPDATE_USER = gql`
+    mutation updateUser($userId: ID!, $userName: String, $password: String, $bio: String) {
+        updateUser(userId: $userId, userName: $userName, password: $password, bio: $bio) {
+            _id
+            userName
+            email
+            bio
+        }
+    }
+`;
+
 
 
 

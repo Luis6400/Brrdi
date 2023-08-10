@@ -2,6 +2,7 @@ const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utils/auth');
 const { Chrrp } = require('../models');
+const bcrypt = require('bcrypt');
 
 const resolvers = {
     Query: {
@@ -12,14 +13,23 @@ const resolvers = {
             return await User.findOne({ userName }).populate('chrrps');
         },
         chrrps: async (parent, { userName }) => {
-            const params = userName ? { userName } : {};
-            return await Chrrp.find({ ...params, deleted: false }).sort({ createdAt: -1 });
-        },
+        try {
+        const params = userName ? { userName } : {};
+        return await Chrrp.find({ ...params, deleted: false })
+                          .sort({ createdAt: -1 })
+                          .populate('chrrpAuthor');
+        } catch (error) {
+        
+        console.error("Error fetching chrrps:", error);
+        throw new Error("Failed to fetch chrrps");
+        }
+},
+
         me: async (parent, args, context) => {
             if (context.user) {
                 const user = await User.findOne({ _id: context.user._id }).populate('chrrps');
-                console.log('Found user:', user);
                 return user;
+            
             }
             console.log('No user in context');
             throw new AuthenticationError('You need to be logged in!');
@@ -74,9 +84,7 @@ const resolvers = {
             }
             throw new AuthenticationError('You need to be logged in!');
         },
-        
-        
-        addchrrpLikes: async (parent, { chrrpId }, context) => {
+     addchrrpLikes: async (parent, { chrrpId }, context) => {
             if (context.user) {
                 const chrrp = await Chrrp.findOneAndUpdate(
                     { _id: chrrpId },
@@ -104,7 +112,24 @@ const resolvers = {
                 return currentUser;
             }
             throw new AuthenticationError('You need to be logged in!');
-        } 
+        }, 
+        
+        async updateUser(parent, { userId, userName, password, bio }, context) {
+            if (!context.user) {
+                throw new AuthenticationError('You need to be logged in!');
+            }
+            
+            const updatedFields = {};
+            if (userName) updatedFields.userName = userName;
+            if (password) {
+                const saltRounds = 10;
+                updatedFields.password = await bcrypt.hash(password, saltRounds);
+            }
+            if (bio) updatedFields.bio = bio;
+            
+            return await User.findByIdAndUpdate(userId, updatedFields, { new: true });
+        },
+
 
         
     },

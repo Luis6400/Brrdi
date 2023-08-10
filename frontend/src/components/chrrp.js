@@ -1,4 +1,7 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
+import { ADD_CHRRP } from "../utils/mutations";
+import ChrrpCard from "./ChrrpCard";
 
 import {
     Card,
@@ -6,77 +9,52 @@ import {
     CardFooter,
     Typography,
     IconButton,
-
 } from "@material-tailwind/react";
-
 import {
-    
     UserCircleIcon,
     HeartIcon,
     ArrowPathIcon,
     EllipsisHorizontalIcon
-
-    
 } from "@heroicons/react/24/solid";
 
 
+
 const Chrrp = () => {
+    const [chrrpText, setChrrpText] = React.useState('');
+    const [chrrps, setChrrps] = React.useState([]);
+    const [addChrrp] = useMutation(ADD_CHRRP);
 
-
-
+    const handleSubmit = async () => {
+        try {
+            const { data } = await addChrrp({ variables: { chrrpText } });
+            setChrrpText(''); //Clear the input
+            setChrrps([data.addChrrp, ...chrrps]); //Add the new chrrp to the state
+            window.location.reload();
+        } catch (error) {
+            console.error("Error adding chrrp:", error);
+        }
+    };
 
     return (
         <div>
-            <Card className="mt-6 p-2 drop-shadow-lg ">
-
-                <CardBody>
-
-                    <Card boxShadow="none" className="m-2 h-5 bg-transparent shadow-none flex-row">
-                            
-                  
-                            
-
-                            <UserCircleIcon  className="absolute bottom-0 h-11 w-11 flex-row" />
-                                <Typography color="pink" variant="h5"  className=" pl-12  absolute bottom-1">
-                                    UserName
-                                </Typography>
-                         
-                                
-                       
-                        
-                    </Card>
-
-                    <hr className="my-2 border-gray-600" />
-
-
-                    <Typography color="black" className=" ">
-                        The place is close to Barceloneta Beach and bus stop just 2 min by
-                        walk and near to &quot;Naviglio&quot; where you can enjoy the main
-                        night life in Barcelona.
-                    </Typography>
-                <hr className="my-2 border-gray-600" />
-
-                    <div className="m-2 flex gap-4">
-                        <IconButton color="white" className=" shadow-none">
-                            <HeartIcon className=" h-6 w-6" />
-                        </IconButton>
-                        <IconButton color="white" className=" shadow-none">
-                            <ArrowPathIcon className="h-6 w-6" />
-                        </IconButton>
-                        <IconButton color="white" className=" shadow-none">
-                            <EllipsisHorizontalIcon className="h-6 w-6" />
-                        </IconButton>
-                    </div>
-                        <Typography color="black" className="fixed bottom-0">
-                            03/03/2021
-                        </Typography>
-                </CardBody>
-               
-            </Card>
+            <div className="mb-6">
+                <input 
+                    type="text" 
+                    value={chrrpText} 
+                    onChange={e => setChrrpText(e.target.value)} 
+                    placeholder="What's on your mind?" 
+                />
+                <button onClick={handleSubmit}>Chrrp!</button>
+            </div>
+            <div>
+    {chrrps.map(chrrp => {
+        console.log(chrrp);
+        return <ChrrpCard key={chrrp._id} chrrp={chrrp} />;
+    })}
+</div>
 
         </div>
-    )
-
+    );
 }
 
 export default Chrrp;

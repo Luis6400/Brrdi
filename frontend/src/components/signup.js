@@ -88,7 +88,7 @@ const SignupCard = () => {
                     </div>
                     <div className="m-3 ">
 
-                        <Input variant="standard" name="password" value={userFormData.password} onChange={handleInputChange} label="Password" color="pink" className="" />
+                        <Input variant="standard" name="password" type="password" value={userFormData.password} onChange={handleInputChange} label="Password" color="pink" className="" />
                     </div>
 
                     <div className="m-3 ">

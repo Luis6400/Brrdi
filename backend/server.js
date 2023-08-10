@@ -7,12 +7,17 @@ const db = require('./config/connection');
 const PORT = process.env.PORT || 3001;
 const app = express();
 require('dotenv').config();
+const cors = require('cors');
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
 });
+
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://studio.apollographql.com']
+}));
 
 app.use(express.urlencoded({ extended: false }));
 
