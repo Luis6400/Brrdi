@@ -63,13 +63,7 @@ const navigate = useNavigate();
                             Search
                         </ListItem>
 
-                        <ListItem>
-                            <ListItemPrefix>
-                                <ArrowUpCircleIcon className="h-10 w-10" />
-                            </ListItemPrefix>
-                            Upload
-
-                        </ListItem>
+                        
                 </List>
 
 
@@ -85,11 +79,11 @@ const navigate = useNavigate();
                             Settings
                         </ListItem>
 
-                    <ListItem>
+                    <ListItem onClick={handleSignOut}>
                         <ListItemPrefix>
                             <PowerIcon className="h-10 w-10" />
                         </ListItemPrefix>
-                        <span onClick={handleSignOut}>Logout</span>
+                        Logout
                     </ListItem>
 
                 </List>

@@ -7,6 +7,7 @@ import Chrrp from "./chrrp";
 import {
     Card,
     CardBody,
+    CardHeader,
     CardFooter,
     Typography,
     Tooltip,
@@ -18,20 +19,26 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 
 const Profile = () => {
     const { data } = useQuery(QUERY_ME);
-    
+
 
     // Check if data is available and extract user details
     const user = data?.me || {};
 
     if (!data?.me) {
-       
-        return <Typography color="blue-gray" className="text-center">Please log in to view your profile.</Typography>;
+
+        return <Typography color="white" className="text-center">Please log in to view your profile.</Typography>;
     }
 
     return (
         <div>
             <div className="flex justify-center">
                 <Card className=" w-full ">
+                    <div className="w-full flex justify-center">
+
+                        <CardHeader floated={false} className="w-80 h-80">
+                            <img className="object-fill w-80 h-80" src="https://cdn2.vectorstock.com/i/1000x1000/95/01/avatar-profile-account-icon-vector-1979501.jpg" alt="profile-picture" />
+                        </CardHeader>
+                    </div>
                     <CardBody className="text-center">
                         <Typography variant="h4" color="pink" className="mb-2">
                             {user.userName || 'Default Name'}
@@ -55,25 +62,25 @@ const Profile = () => {
                     </CardFooter>
                 </Card>
             </div>
-            <Chrrp/>
+            <Chrrp />
             {/* User's Chrrps Section */}
             <div className="mt-8">
-                <Typography variant="h5" color="blue-gray" className="mb-4 text-center">
+                <Typography variant="h5" color="white" className="mb-4 text-center">
                     Your Chrrps
                 </Typography>
 
                 {user.chrrps && user.chrrps.length > 0 ? (
-                user.chrrps.map(chrrp => (
-                <ChrrpCard key={chrrp._id} chrrp={chrrp} />
-                ))
+                    user.chrrps.map(chrrp => (
+                        <ChrrpCard key={chrrp._id} chrrp={chrrp} />
+                    ))
                 ) : (
-                    <Typography color="blue-gray" className="text-center">
+                    <Typography color="white" className="text-center">
                         You haven't created any chrrps yet.
                     </Typography>
                 )}
             </div>
 
-            
+
         </div>
     )
 }

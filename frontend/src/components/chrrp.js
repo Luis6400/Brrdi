@@ -3,12 +3,15 @@ import { useMutation } from "@apollo/client";
 import { ADD_CHRRP } from "../utils/mutations";
 import ChrrpCard from "./ChrrpCard";
 
+
 import {
     Card,
     CardBody,
     CardFooter,
     Typography,
     IconButton,
+    Input,
+    Button
 } from "@material-tailwind/react";
 import {
     UserCircleIcon,
@@ -36,16 +39,18 @@ const Chrrp = () => {
     };
 
     return (
-        <div>
-            <div className="mb-6">
-                <input 
-                    type="text" 
+        <div className="">
+            <Card className="m-6 bg-gray-800">
+                <Input 
+                    type="text"
+                    className="bg-white"
+                    color="pink" 
                     value={chrrpText} 
                     onChange={e => setChrrpText(e.target.value)} 
                     placeholder="What's on your mind?" 
                 />
-                <button onClick={handleSubmit}>Chrrp!</button>
-            </div>
+                <Button className="bg-red-200" onClick={handleSubmit}>Chrrp!</Button>
+            </Card>
             <div>
     {chrrps.map(chrrp => {
         console.log(chrrp);

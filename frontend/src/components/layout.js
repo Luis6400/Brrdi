@@ -10,7 +10,8 @@ import { useLocation } from 'react-router-dom';
 const Layout = (PropsWithChildren) => {
     const {pathname} = useLocation();
     return (
-        <div class="grid grid-cols-10 gap-4">
+        <div class="grid grid-cols-10 gap-4 bg-gray-800">
+            
             <div class="col-span-3 relative"><DefaultSidebar/></div>
             <div class="col-span-4">
             {/* <div class="col-span-4">{handleSelected()}</div> */}
