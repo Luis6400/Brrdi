@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import { useMutation, useApolloClient } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 import { QUERY_ME } from '../utils/queries';
-import Auth from '../utils/auth';
+import AuthService from '../utils/auth';
 
 import {
     Card,
@@ -18,6 +18,7 @@ import {
 
 
 const LoginCard = () => {
+    const Auth = new AuthService();
 
     const [userFormData, setUserFormData] = useState({ email: '', password: '' });
     const [login, { error }] = useMutation(LOGIN_USER);
