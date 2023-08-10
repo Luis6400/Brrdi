@@ -19,6 +19,9 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 
 const Profile = () => {
     const { data } = useQuery(QUERY_ME);
+    const handleChrrpDelete = (deletedChrrpId) => {
+        window.location.reload();
+      };
 
 
     // Check if data is available and extract user details
@@ -70,8 +73,8 @@ const Profile = () => {
                 </Typography>
 
                 {user.chrrps && user.chrrps.length > 0 ? (
-                    user.chrrps.map(chrrp => (
-                        <ChrrpCard key={chrrp._id} chrrp={chrrp} />
+                    user.chrrps.slice(0).reverse().map(chrrp => (
+                        <ChrrpCard key={chrrp._id} onDelete={handleChrrpDelete} chrrp={chrrp} />
                     ))
                 ) : (
                     <Typography color="white" className="text-center">

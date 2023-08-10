@@ -17,7 +17,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const httpLink = new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_API_URL});
+const httpLink = new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_API_URL || 'http://localhost:3001/graphql'});
 
 const link = authLink.concat(httpLink);
 
