@@ -18,6 +18,7 @@ const Layout = (PropsWithChildren) => {
             {pathname.includes("/search") && <SearchBar/>}
             {pathname.includes("/feed") && <Feed/>}
             {pathname.includes("/settings") && <Settings/>}
+            
             </div>
             <div class="col-span-3 relative"><Adspace/></div>
         </div>
