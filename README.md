@@ -2,7 +2,7 @@
 
 ## Description
 
-Brrdi is an interactive web application allowing users to post short messages, termed "chrrps". Built on a secure MERN stack platform, it supports user registration and profile creation for personalized posts and interactions. It is currently deployed on Heroku, and you can visit the site [here]().
+Brrdi is an interactive web application allowing users to post short messages, termed "chrrps". Built on a secure MERN stack platform, it supports user registration and profile creation for personalized posts and interactions. It is currently deployed on Heroku, and you can visit the site [here](https://brrdi-aeb82933537b.herokuapp.com/login).
 
 ## Table of Contents
 - [Description](#description)
