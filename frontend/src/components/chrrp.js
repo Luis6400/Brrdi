@@ -2,6 +2,7 @@ import React from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_CHRRP } from "../utils/mutations";
 import ChrrpCard from "./ChrrpCard";
+import { useParams } from "react-router-dom";
 
 
 import {

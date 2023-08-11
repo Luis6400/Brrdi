@@ -17,7 +17,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const httpLink = new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_API_URL || 'http://localhost:3001/graphql'});
+const httpLink = new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_API_URL});
 
 const link = authLink.concat(httpLink);
 
@@ -38,6 +38,7 @@ function App() {
           <Route path="/profile" element={<Home />} />
           <Route path="/search" element={<Home />} />
           <Route path="/settings" element={<Home />} />
+          <Route path="/chrrp/:chrrpid" element={<Home />} />
         </Routes>
       </Router>
     </ApolloProvider>
