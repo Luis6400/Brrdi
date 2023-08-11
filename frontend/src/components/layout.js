@@ -7,6 +7,7 @@ import Profile from './profile';
 import SearchBar from './searchbar';
 import Settings from './settings';
 import { useLocation } from 'react-router-dom';
+import Chrrpthread from './Chrrpthread';
 const Layout = (PropsWithChildren) => {
     const {pathname} = useLocation();
     return (
@@ -19,6 +20,7 @@ const Layout = (PropsWithChildren) => {
             {pathname.includes("/search") && <SearchBar/>}
             {pathname.includes("/feed") && <Feed/>}
             {pathname.includes("/settings") && <Settings/>}
+            {pathname.includes("/chrrp") && <Chrrpthread/>}
             
             </div>
             <div class="col-span-3 relative"><Adspace/></div>
